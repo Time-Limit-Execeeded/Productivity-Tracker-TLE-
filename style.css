@@ -97,21 +97,31 @@ a:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 25px;
+  animation: fadeIn 0.8s ease;
 }
 
 /* === Cards === */
 .card {
   background: var(--card-bg);
-  border-radius: 16px;
+  border-radius: var(--radius);
   padding: 20px;
   box-shadow: var(--shadow-light);
   backdrop-filter: blur(10px);
   transition: var(--transition);
+  animation: slideUp 0.6s ease;
 }
 
 .card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-strong);
+}
+
+/* Section headers */
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 /* === Timer Section === */
@@ -145,7 +155,7 @@ a:hover {
   box-shadow: 0 5px 15px rgba(255, 230, 0, 0.6);
 }
 
-/* === Chips (Quick presets) === */
+/* Quick presets */
 .chip {
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid var(--text);
@@ -155,11 +165,28 @@ a:hover {
   cursor: pointer;
   transition: var(--transition);
 }
-
 .chip:hover {
   background: var(--text);
   color: var(--primary);
   box-shadow: 0 0 8px var(--text);
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+.stat {
+  text-align: center;
+}
+.stat-label {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+.stat-value {
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 
 /* === Checklist Section === */
@@ -167,7 +194,6 @@ a:hover {
   display: flex;
   margin-bottom: 15px;
 }
-
 .task-input input {
   flex: 1;
   padding: 10px;
@@ -175,7 +201,6 @@ a:hover {
   border-radius: 8px 0 0 8px;
   outline: none;
 }
-
 .task-input button {
   background: var(--text);
   color: var(--primary);
@@ -185,18 +210,15 @@ a:hover {
   cursor: pointer;
   transition: var(--transition);
 }
-
 .task-input button:hover {
   background: var(--accent);
   color: #000;
 }
-
 .task-list {
   list-style: none;
   max-height: 250px;
   overflow-y: auto;
 }
-
 .task-list li {
   background: rgba(255, 255, 255, 0.15);
   margin: 8px 0;
@@ -207,23 +229,58 @@ a:hover {
   justify-content: space-between;
   transition: var(--transition);
 }
-
 .task-list li:hover {
   background: rgba(255, 255, 255, 0.3);
 }
-
 .task-list li.completed {
   text-decoration: line-through;
   opacity: 0.6;
 }
-
 /* Custom Scrollbar */
-.task-list::-webkit-scrollbar {
-  width: 6px;
-}
+.task-list::-webkit-scrollbar { width: 6px; }
 .task-list::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.4);
   border-radius: 4px;
+}
+.task-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  opacity: 0.85;
+  gap: 10px;
+}
+
+.task-footer button{
+    margin: 0px;
+}
+
+/* === Tracker Section === */
+.chart-wrap {
+  background: rgba(255,255,255,0.05);
+  padding: 10px;
+  border-radius: var(--radius);
+  margin-bottom: 15px;
+}
+.history-meta {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.history-table th, .history-table td {
+  padding: 8px 12px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.history-table th {
+  background: rgba(255,255,255,0.15);
+  font-weight: 600;
 }
 
 /* === Ambient Sounds Section === */
@@ -232,7 +289,6 @@ a:hover {
   gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
-
 .sound {
   background: rgba(255, 255, 255, 0.15);
   padding: 15px;
@@ -242,12 +298,10 @@ a:hover {
   gap: 10px;
   transition: var(--transition);
 }
-
 .sound:hover {
   background: rgba(255, 255, 255, 0.25);
   box-shadow: var(--shadow-light);
 }
-
 .sound-toggle {
   background: var(--text);
   border: none;
@@ -257,14 +311,71 @@ a:hover {
   cursor: pointer;
   transition: var(--transition);
 }
-
 .sound-toggle:hover {
   background: var(--accent);
   color: #000;
 }
-
 .sound-vol {
   width: 100%;
+}
+
+/* === Dialog (Settings) === */
+dialog {
+  border: none;
+  border-radius: var(--radius);
+  padding: 20px;
+  background: var(--card-bg);
+  color: var(--text);
+  box-shadow: var(--shadow-strong);
+  max-width: 600px;
+  width: 90%;
+}
+dialog::backdrop {
+  background: rgba(0,0,0,0.6);
+}
+.settings .grid.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+.settings label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+.settings input[type="number"],
+.settings input[type="checkbox"] {
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+}
+.actions {
+  text-align: right;
+  margin-top: 15px;
+}
+
+/* === Buttons utility === */
+button.ghost {
+  background: transparent;
+  border: 1px solid var(--text);
+  color: var(--text);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+button.ghost:hover {
+  background: var(--text);
+  color: var(--primary);
+}
+button.danger {
+  border-color: #f33;
+  color: #f33;
+}
+button.danger:hover {
+  background: #f33;
+  color: #fff;
 }
 
 /* === Footer === */
@@ -274,32 +385,36 @@ a:hover {
   padding: 15px;
   background: rgba(0, 0, 0, 0.3);
   font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 /* === Responsive Fixes === */
 @media (max-width: 600px) {
-  .topbar {
-    padding: 10px 20px;
-  }
-  .timer-text {
-    font-size: 2.2rem;
-  }
+  .topbar { padding: 10px 20px; flex-direction: column; gap: 10px; }
+  .timer-text { font-size: 2.2rem; }
   .controls button,
   .sound-toggle,
-  .task-input button {
-    min-width: 44px;
-    min-height: 44px;
-  }
+  .task-input button { min-width: 44px; min-height: 44px; }
+  .stats { flex-direction: column; gap: 10px; }
+  .history-meta { flex-direction: column; gap: 6px; }
+  .footer { flex-direction: column; gap: 5px; }
 }
 
-/* === Light Mode (optional toggle) === */
+/* === Light Mode (optional) === */
 body.light {
   --bg-gradient: linear-gradient(135deg, #fdfbfb, #ebedee);
   --card-bg: rgba(0, 0, 0, 0.05);
   --card-bg-hover: rgba(0, 0, 0, 0.1);
   --text: #000;
-}
-
-.task-list::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.4);
 }
