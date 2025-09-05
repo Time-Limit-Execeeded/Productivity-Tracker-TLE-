@@ -9,26 +9,6 @@
 </head>
 <body>
 
-  <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
-    <a href="index.html"target="_blank"><h3>Home</h3></a>
-    <br>
-    <a href="pomodoro.html"target="_blank"><h3>Pomodoro</h3></a>
-    <br>
-    <a href="habit.html"target="_blank" tr><h3>Habit Tracker</h3></a>
-    <br>
-    <a href="checklist.html"target="_blank"><h3>Checklist</h3></a>
-    <br>
-    <a href="leaderboard.html"target="_blank"><h3>Leaderboard</h3></a>
-    <br>
-    <a href="index.html"target="_blank"><h3>Login</h3></a>
-  </div>
-
-  <!-- Toggle Arrow -->
-  <div class="toggle-btn" id="toggleBtn">
-    <span>➤</span>
-  </div>
-
   <!-- Background video -->
   <video autoplay muted loop playsinline preload="auto" id="bg-video">
     <source src="jellyfish.mp4" type="video/mp4" />
@@ -92,11 +72,20 @@
           <p class="chart-description">This pie chart shows your 24-hour daily breakdown: focused work time, 6-hour sleep, and other activities.</p>
         </div>
       </div>
-
     </section>
   </main>
 
-  <!-- Another Background video (Optional, remove if not needed) -->
+  <!-- Spotify Panel -->
+  <div class="spotify-panel">
+    <h3 class="amb">Ambient Music</h3>
+    <div class="spotify-tracks">
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/62mFjcWGkt2OY9LT9EvxS2?utm_source=generator" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/04boE4u1AupbrGlI62WvoO?utm_source=generator" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6b5mdCKyPveuHjUMaCcxPt?utm_source=generator" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2Umf3B7gYhkocbveXW35Ui?utm_source=generator" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    </div>
+  </div>
+
   <video autoplay muted loop playsinline preload="auto" id="bg-video">
     <source src="Fishes.mp4" type="video/mp4" />
     Your browser does not support HTML5 video.
@@ -104,8 +93,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="Tracker.js"></script>
-
-  <!-- Sidebar Toggle Script -->
   <script>
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleBtn');
