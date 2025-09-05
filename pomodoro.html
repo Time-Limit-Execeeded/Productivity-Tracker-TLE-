@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pomodoro | Productivity</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #a445b2, #ff0066);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      width: 95%;
+      max-width: 1400px;
+      min-height: 600px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    
+    .progress-circle {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      margin: 0 auto;
+    }
+    .progress-circle svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    .progress-circle circle {
+      fill: none;
+      stroke-width: 16;
+      stroke-linecap: round;
+    }
+    .progress-bg {
+      stroke: #ddd;
+    }
+    .progress-bar {
+      stroke: #4cafef;
+      stroke-dasharray: 1005;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 0.5s linear;
+    }
+    .timer-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3.5rem;
+      font-weight: 800;
+    }
+
+
+    .controls, .extra-controls {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .controls button, .extra-controls button {
+      padding: 1.2rem 2rem;
+      border-radius: 14px;
+      border: none;
+      background: #f3f3f3;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: 0.2s;
+    }
+    .controls button:hover, .extra-controls button:hover {
+      background: #e0e0e0;
+    }
+
+    
+    .stats {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+  
+    .log {
+      margin-top: 2rem;
+      padding: 1.2rem;
+      border: 1px solid #ddd;
+      border-radius: 14px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+
+  
+    .quote {
+      margin-top: 2rem;
+      text-align: center;
+      font-style: italic;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">⏱️</span>
+      <h1>Pomodoro</h1>
+    </div>
+    <nav class="nav">
+      <a href="pomodoro.html" class="active">Pomodoro</a>
+      <a href="index.html#tasks">Checklist</a>
+      <a href="index.html#tracker">Tracker</a>
+      <a href="index.html#sounds">Ambient</a>
+      <button id="openSettings" class="ghost">Settings</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section id="pomodoro" class="card">
+      <header class="section-head">
+        <h2 style="font-weight:800;">Pomodoro Timer</h2>
+        <div class="mode" style="font-weight:700;">
+          <span id="modeLabel">Work</span> •
+          <span>Cycle <span id="cycleCount">1</span></span>
+        </div>
+      </header>
+
+    
+      <div class="progress-circle">
+        <svg viewBox="0 0 360 360">
+          <circle class="progress-bg" cx="180" cy="180" r="160"></circle>
+          <circle class="progress-bar" cx="180" cy="180" r="160"></circle>
+        </svg>
+        <div id="timerText" class="timer-text">25:00</div>
+      </div>
+
+      
+      <div class="controls">
+        <button id="startBtn">▶ Start</button>
+        <button id="pauseBtn">⏸ Pause</button>
+        <button id="resetBtn">⟲ Reset</button>
+        <button id="skipBtn">⏭ Skip</button>
+      </div>
+
+      <div class="extra-controls">
+        <button id="rewindBtn">⏪ -1 min</button>
+        <button id="ffBtn">⏩ +5 min</button>
+        <button id="restartBtn">🔄 Restart</button>
+        <button id="stopBtn">⏹ Stop</button>
+      </div>
+
+      
+      <div class="stats">
+        <div>Sessions: <span id="statSessions">0</span></div>
+        <div>Minutes: <span id="statMinutes">0</span></div>
+        <div>Streak: <span id="statStreak">0</span></div>
+      </div>
+
+      
+      <div class="log" id="sessionLog">
+        <strong>Session Log</strong>
+        <ul id="logList"></ul>
+      </div>
+
+    
+      <div class="quote" id="quoteBox">“Stay focused, stay consistent.”</div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year"></span> Student Productivity</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
