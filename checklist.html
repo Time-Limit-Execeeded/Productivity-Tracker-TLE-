@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Task Checklist Pro</title>
+  <link rel="stylesheet" href="checklist.css">
+</head>
+<body>
+  <div class="background-decoration"></div>
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Tracker</a></li>
+        <li><a href="#">Pomodoro</a></li>
+        <li><a href="#">Ambient Sounds</a></li>
+      </ul>
+    </nav>
+    <header>
+      <div class="header-content">
+        <div class="logo">✓</div>
+        <h1>CheckList</h1>
+        <p class="subtitle">Organize your life</p>
+      </div>
+    </header>
+
+    <main>
+      <div class="task-card">
+        <div class="input-section">
+          <div class="input-group">
+            <input 
+              id="newTask" 
+              type="text" 
+              class="task-input" 
+              placeholder="What needs to be done today?" 
+              aria-label="New task description"
+            />
+            <button id="addBtn" class="add-btn" aria-label="Add new task">
+              <span>Add Task</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="filters" role="toolbar" aria-label="Task filters">
+          <button data-filter="all" class="filter-btn active">All Tasks</button>
+          <button data-filter="active" class="filter-btn">Active</button>
+          <button data-filter="completed" class="filter-btn">Completed</button>
+          <div class="spacer"></div>
+          <button id="clearCompleted" class="clear-btn">Clear Completed</button>
+        </div>
+
+        <ul id="tasks" class="tasks" aria-live="polite"></ul>
+
+        <div class="empty-state" id="emptyMsg" hidden>
+          <h3>No tasks yet!</h3>
+          <p>Add your first task above to get started</p>
+        </div>
+
+        <div class="stats">
+          <div id="count" class="task-count">0 tasks</div>
+          <div class="progress-bar">
+            <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+          </div>
+          <div id="completion" class="task-count">0% complete</div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>Copyright &copy; - Time Limit Exceeded</p>
+    </footer>
+  </div>
+  <script src="checklist.js"></script>
+ </body>
+ </html>
