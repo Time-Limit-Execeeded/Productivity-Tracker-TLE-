@@ -120,12 +120,14 @@
       <button id="signupBtn" type="button">Signup</button>
     </div>
 
+    <!-- Login Form -->
     <form id="loginForm" class="active">
       <input type="email" placeholder="Email" required>
       <input type="password" placeholder="Password" required>
       <button type="submit" class="submit">Login</button>
     </form>
 
+    <!-- Signup Form -->
     <form id="signupForm">
       <input type="text" placeholder="Name" required>
       <input type="email" placeholder="Email" required>
@@ -155,7 +157,7 @@
     });
   </script>
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import { 
@@ -164,21 +166,28 @@
       signInWithEmailAndPassword, 
       updateProfile 
     } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+    import { 
+      getFirestore, 
+      doc, 
+      setDoc 
+    } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCvLtoG2Mw__VaKf7riJ27qZ9ynDMTD7Pw",
-  authDomain: "productivity-hub-backend.firebaseapp.com",
-  projectId: "productivity-hub-backend",
-  storageBucket: "productivity-hub-backend.firebasestorage.app",
-  messagingSenderId: "599841805629",
-  appId: "1:599841805629:web:f0df811dd7820a0292e154",
-  measurementId: "G-SK8E22S8P5"
-};
+    // ✅ Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCvLtoG2Mw__VaKf7riJ27qZ9ynDMTD7Pw",
+      authDomain: "productivity-hub-backend.firebaseapp.com",
+      projectId: "productivity-hub-backend",
+      storageBucket: "productivity-hub-backend.appspot.com",
+      messagingSenderId: "599841805629",
+      appId: "1:599841805629:web:f0df811dd7820a0292e154",
+      measurementId: "G-SK8E22S8P5"
+    };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    // Signup
+    // ✅ Signup
     signupForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const email = signupForm.querySelector('input[placeholder="Email"]').value;
@@ -188,6 +197,17 @@ const firebaseConfig = {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(userCredential.user, { displayName: name });
+
+        // ✅ Firestore me user doc create karna
+        await setDoc(doc(db, "users", userCredential.user.uid), {
+          name: name,
+          email: email,
+          pomodorosCompleted: 0,
+          tasksCompleted: 0,
+          score: 0,
+          createdAt: new Date()
+        });
+
         alert("Signup successful 🎉 Now login with your account.");
         signupForm.reset();
       } catch (error) {
@@ -195,7 +215,7 @@ const firebaseConfig = {
       }
     });
 
-    // Login
+    // ✅ Login
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const email = loginForm.querySelector('input[placeholder="Email"]').value;
@@ -205,12 +225,11 @@ const firebaseConfig = {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         alert(`Welcome back, ${user.displayName || "User"}!`);
-        window.location.href = "landing.html";
+        window.location.href = "landing.html"; // ✅ Redirect after login
       } catch (error) {
         alert(error.message);
       }
     });
   </script>
-
 </body>
 </html>

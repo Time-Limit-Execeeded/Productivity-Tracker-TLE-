@@ -145,3 +145,14 @@ skipBtn.addEventListener("click", skipTimer);
 // ------------------ INIT ------------------
 yearEl.textContent = new Date().getFullYear();
 updateUI();
+
+
+// ⏳ jab timer khatam ho jaye
+function finishPomodoro() {
+  alert("Pomodoro Complete ✅");
+
+  // ✅ Agar Firebase function available hai to call karega
+  if (window.updatePomodoroScore) {
+    window.updatePomodoroScore();
+  }
+}
