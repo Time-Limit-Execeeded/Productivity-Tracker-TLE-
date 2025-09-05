@@ -10,7 +10,7 @@ const progressFillEl = document.getElementById("progressFill");
 const emptyMsg = document.getElementById("emptyMsg");
 const filters = document.querySelectorAll(".filter-btn[data-filter]");
 let filter = "all";
-let tasks = load();
+export let tasks = load();
 
 function loadCompletedTasks() {
   try {
