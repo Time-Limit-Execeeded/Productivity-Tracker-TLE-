@@ -9,13 +9,6 @@
 <body>
   <div class="background-decoration"></div>
   <div class="container">
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="Tracker.html">Tracker</a></li>
-        <li><a href="pomodoro.html">Pomodoro</a></li>
-      </ul>
-    </nav>
     <header>
       <div class="header-content">
         <div class="logo">✓</div>
@@ -65,12 +58,51 @@
           <div id="completion" class="task-count">0% complete</div>
         </div>
       </div>
+      Restriction</h3></a>
+      <br><br><br
     </main>
 
     <footer>
       <p>Copyright &copy; - Time Limit Exceeded</p>
     </footer>
   </div>
+ <!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  
+  <a href="#"><h3>Home</h3></a>
+  
+  <a href="#"><h3>Pomodoro</h3></a>
+  
+  <a href="#"><h3>Habit Tracker</h3></a>
+  
+  <a href="#"><h3>Checklist</h3></a>
+  
+  <a href="#"><h3>Restriction</h3></a>
+  
+  <a href="#"><h3>Login</h3></a>
+  
+</div>
+
+<!-- Toggle Arrow -->
+<div class="toggle-btn" id="toggleBtn">
+  <span>➤</span>
+</div>
+<!-- Script -->
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('toggleBtn');
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+  });
+</script>
+
+
+  <!-- Checklist + Firebase Scripts -->
+  <script src="checklist.js"></script>
+  <script type="module">
+    <!-- Firebase config code -->
+  </script>
 
   <script src="checklist.js"></script>
 

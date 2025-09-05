@@ -138,9 +138,58 @@
       padding: 1rem;
       max-width: 100%;
     }
+
+    /* Sidebar Links */
+.sidebar a {
+  display: block;
+  padding: 15px 20px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.sidebar a:hover {
+  background: #222;
+}
+
+/* Toggle Button (Arrow Tab) */
+.toggle-btn {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 35px;
+  height: 60px;
+  background: #111;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  z-index: 1100;
+  transition: left 0.3s ease;
+}
+
+.toggle-btn span {
+  font-size: 20px;
+  transition: transform 0.3s;
+}
+
+/* When Sidebar is Open */
+.sidebar.open ~ .toggle-btn {
+  left: 220px; 
+}
+
+.sidebar.open ~ .toggle-btn span {
+  transform: rotate(180deg); 
+}
   </style>
 </head>
 <body>
+
+  
   <!-- Background Video -->
   <video autoplay muted loop playsinline preload="auto" id="bg-video">
     <source src="Fishes.mp4" type="video/mp4" />
@@ -187,5 +236,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="Tracker.js"></script>
+
+  
 </body>
 </html>
