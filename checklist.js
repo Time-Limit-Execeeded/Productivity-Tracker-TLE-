@@ -32,6 +32,8 @@ newTaskInput.addEventListener("keydown", (e) => {
 document.getElementById("clearCompleted").addEventListener("click", () => {
   // Only clear completed tasks from current tasks, keep completedTasks intact
   tasks = tasks.filter((t) => !t.done);
+  localStorage.removeItem(STORAGE_KEY2);
+  completedTasks = []
   save();
   render();
 });
