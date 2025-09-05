@@ -477,6 +477,9 @@ main {
   transition: all 0.3s ease;
   cursor: text;
 }
+.task-duration{
+  margin-left: 100px;
+}
 
 .task-text:focus {
   outline: 2px solid var(--accent);
