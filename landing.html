@@ -7,7 +7,34 @@
   <link rel="stylesheet" href="lpgstyle.css">
 </head>
 <body>
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <a href="#"><h3>Home</h3></a>
+  <br><br><br><br>
+  <a href="#"><h3>Pomodoro</h3></a>
+  <br><br><br><br>
+  <a href="#"><h3>Habit Tracker</h3></a>
+  <br><br><br><br>
+  <a href="#"><h3>Checklist</h3></a>
+  <br><br><br><br>
+  <a href="#"><h3>Restriction</h3></a>
+  <br><br><br><br>
+  <a href="#"><h3>Login</h3></a>
+</div>
 
+<!-- Toggle Arrow -->
+<div class="toggle-btn" id="toggleBtn">
+  <span>➤</span>
+</div>
+<!-- Script -->
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('toggleBtn');
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+  });
+</script>
     <video autoplay muted loop id="bg-video">
     <source src="jelly compressed.mp4" type="video/mp4">
     Your browser does not support HTML5 video.

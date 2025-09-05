@@ -1,4 +1,3 @@
-// ------------------ ELEMENTS ------------------
 const timerText = document.getElementById("timerText");
 const modeLabel = document.getElementById("modeLabel");
 const cycleCountEl = document.getElementById("cycleCount");
@@ -20,9 +19,9 @@ const statStreak = document.getElementById("statStreak");
 const logList = document.getElementById("logList");
 const yearEl = document.getElementById("year");
 
-// ------------------ SETTINGS ------------------
-let workDuration = 25 * 60; // 25 min
-let breakDuration = 5 * 60; // 5 min
+
+let workDuration = 25 * 60;
+let breakDuration = 5 * 60; 
 let timeLeft = workDuration;
 
 let isWork = true;
@@ -33,13 +32,11 @@ let totalSessions = 0;
 let totalMinutes = 0;
 let timer;
 
-// circle animation setup
 const radius = 160;
 const circumference = 2 * Math.PI * radius;
 workBar.style.strokeDasharray = circumference;
 workBar.style.strokeDashoffset = circumference;
 
-// ------------------ HELPERS ------------------
 function formatTime(sec) {
   const m = String(Math.floor(sec / 60)).padStart(2, "0");
   const s = String(sec % 60).padStart(2, "0");
