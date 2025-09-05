@@ -1,5 +1,7 @@
 const STORAGE_KEY = "task.checklist.v1";
+const STORAGE_KEY2 = "completedTasks";
 const newTaskInput = document.getElementById("newTask");
+const newTimeInput = document.getElementById("newTime");
 const addBtn = document.getElementById("addBtn");
 const tasksEl = document.getElementById("tasks");
 const countEl = document.getElementById("count");
@@ -8,7 +10,18 @@ const progressFillEl = document.getElementById("progressFill");
 const emptyMsg = document.getElementById("emptyMsg");
 const filters = document.querySelectorAll(".filter-btn[data-filter]");
 let filter = "all";
-let tasks = load();
+export let tasks = load();
+
+function loadCompletedTasks() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY2);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+export let completedTasks = loadCompletedTasks();
 render();
 
 addBtn.addEventListener("click", onAdd);
@@ -17,7 +30,10 @@ newTaskInput.addEventListener("keydown", (e) => {
 });
 
 document.getElementById("clearCompleted").addEventListener("click", () => {
+  // Only clear completed tasks from current tasks, keep completedTasks intact
   tasks = tasks.filter((t) => !t.done);
+  localStorage.removeItem(STORAGE_KEY2);
+  completedTasks = []
   save();
   render();
 });
@@ -32,11 +48,17 @@ filters.forEach((btn) =>
 );
 
 function onAdd() {
+  console.log(completedTasks);
   const v = newTaskInput.value.trim();
+  const duration = Number(newTimeInput.value);
+  
   if (!v) return flash(newTaskInput);
-  const t = { id: cryptoId(), text: v, done: false, created: Date.now() };
+  if (!duration || duration < 1) return flash(newTimeInput);
+  
+  const t = { id: cryptoId(), text: v, done: false, created: Date.now(), duration: duration};
   tasks.unshift(t);
   newTaskInput.value = "";
+  newTimeInput.value = ""; // Clear the time input
   save();
   render();
   focusTask(t.id);
@@ -44,11 +66,16 @@ function onAdd() {
 
 function render() {
   tasksEl.innerHTML = "";
-  const shown = tasks.filter((t) => {
-    if (filter === "active") return !t.done;
-    if (filter === "completed") return t.done;
-    return true;
-  });
+  let shown;
+  if (filter === "active") {
+    shown = tasks.filter((t) => !t.done);
+  } else if (filter === "completed") {
+    // Show completed tasks from both current tasks and stored completedTasks
+    const currentCompleted = tasks.filter((t) => t.done);
+    shown = [...currentCompleted, ...completedTasks];
+  } else {
+    shown = tasks;
+  }
 
   if (shown.length === 0) {
     emptyMsg.hidden = false;
@@ -71,7 +98,7 @@ function render() {
 
 function elFor(t) {
   const li = document.createElement("li");
-  li.className = "task-item" + (t.done ? " completed" : "");
+  li.className = "task-item" + (t.done ? " completed" : "" );
   li.setAttribute("data-id", t.id);
   li.tabIndex = 0;
 
@@ -86,7 +113,10 @@ function elFor(t) {
 
   const title = document.createElement("div");
   title.className = "task-text";
-  title.textContent = t.text;
+  title.innerHTML = `
+    <span class="task-title">${t.text}</span>
+    <span class="task-duration">Duration : ${t.duration || 0} min</span>
+  `;
   title.contentEditable = false;
   title.addEventListener("dblclick", () => startEdit(t.id));
 
@@ -131,7 +161,21 @@ function elFor(t) {
 }
 
 function toggle(id) {
-  tasks = tasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t));
+  tasks = tasks.map((t) => {
+    if (t.id === id) {
+      const updatedTask = { ...t, done: !t.done };
+      // If task is being marked as completed, add it to completedTasks
+      if (updatedTask.done) {
+        // Check if task is not already in completedTasks
+        const alreadyCompleted = completedTasks.some(ct => ct.id === id);
+        if (!alreadyCompleted) {
+          completedTasks.push(updatedTask);
+        }
+      }
+      return updatedTask;
+    }
+    return t;
+  });
   save();
   render();
 }
@@ -141,6 +185,7 @@ function removeTask(id) {
   if (li) {
     li.classList.add("removing");
     setTimeout(() => {
+      // Only remove from active tasks, keep in completedTasks if it was completed
       tasks = tasks.filter((t) => t.id !== id);
       save();
       render();
@@ -196,7 +241,9 @@ function focusTask(id) {
 function save() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    localStorage.setItem(STORAGE_KEY2, JSON.stringify(completedTasks));
   } catch (e) {
+    console.warn("Could not save", e);
     console.warn("Could not save", e);
   }
 }
