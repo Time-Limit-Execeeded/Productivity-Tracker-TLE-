@@ -5,7 +5,16 @@
   box-sizing: border-box;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-
+#bg-video {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+      pointer-events: none;
+      filter: brightness(0.5);
+    }
 body {
   min-height: 100vh;
   background: linear-gradient(135deg, #a445b2, #7bded4, #9ee3f6);
