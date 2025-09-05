@@ -4,149 +4,188 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tracker - Student Productivity Center</title>
-  <link rel="stylesheet" href="Tracker.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  
+  <style>
+    /* Background Video */
+    #bg-video {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    /* Bluish Overlay */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,51,102,0.85), rgba(0,191,255,0.4), rgba(135,206,250,0.3));
+      z-index: -1;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Tracker Card */
+    .card {
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 2rem;
+      width: 95%;
+      max-width: 900px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+
+    .tracker-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Stats Row */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
+    /* Progress Bar */
+    .progress-section {
+      margin: 2rem 0;
+    }
+    progress {
+      width: 80%;
+      height: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      appearance: none;
+    }
+    progress::-webkit-progress-bar {
+      background: rgba(255,255,255,0.2);
+    }
+    progress::-webkit-progress-value {
+      background: linear-gradient(90deg, #00aaff, #87ceeb);
+    }
+    progress::-moz-progress-bar {
+      background: linear-gradient(90deg, #00aaff, #87ceeb);
+    }
+
+    /* Goal + Notes Sections */
+    .goal-section, .notes-section {
+      margin: 2rem auto;
+      padding: 1.5rem;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(4px);
+      max-width: 500px;
+    }
+
+    input, textarea {
+      width: 90%;
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 12px;
+      border: none;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      text-align: center;
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+    textarea {
+      resize: none;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 12px;
+      background: skyblue;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      color: black;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: white;
+    }
+
+    /* Chart */
+    .chart-wrap {
+      margin-top: 2rem;
+    }
+    canvas {
+      background: rgba(0,0,0,0.25);
+      border-radius: 14px;
+      padding: 1rem;
+      max-width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="#" class="nav-logo">Productivity Tracker</a>
-      <ul class="nav-menu">
-        <li class="nav-item">
-          <a href="#tracker" class="nav-link active">Tracker</a>
-        </li>
-        <li class="nav-item">
-          <a href="#pomodoro" class="nav-link">Pomodoro</a>
-        </li>
-        <li class="nav-item">
-          <a href="#checklist" class="nav-link">Checklist</a>
-        </li>
-        <li class="nav-item">
-          <a href="#ambient" class="nav-link">Ambient</a>
-        </li>
-      </ul>
-      <div class="nav-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Background video -->
+  <!-- Background Video -->
   <video autoplay muted loop playsinline preload="auto" id="bg-video">
-    <source src="jellyfish.mp4" type="video/mp4" />
+    <source src="Fishes.mp4" type="video/mp4" />
     Your browser does not support HTML5 video.
   </video>
   <div class="overlay"></div>
 
-  <main class="tracker-page">
-    <section id="tracker" class="card">
-      <!-- Tracker Header -->
-      <h1 class="tracker-title">Tracker</h1>
+  <!-- Tracker Card -->
+  <section id="tracker" class="card">
+    <h1 class="tracker-title">Tracker</h1>
 
-      <!-- Stats Row -->
-      <div class="stats-row">
-        <p><strong>Best Streak:</strong> <span id="bestStreak">0</span> hours</p>
-        <p><strong>Total Focused Minutes:</strong> <span id="totalMinutes">0</span></p>
-        <p><strong>Total Tasks Done:</strong> <span id="totalTasks">0</span></p>
-      </div>
-      
-      <!-- Progress Bar Section -->
-      <div class="progress-section">
-        <label for="progressBar"><strong>Today's Progress:</strong></label><br>
-        <progress id="progressBar" value="0" max="100"></progress>
-      </div>
-      
-      <!-- Goal Setting Section -->
-      <div class="goal-section card">
-        <label for="dailyGoal"><strong>Set Study Goal (min):</strong></label><br>
-        <input type="number" id="dailyGoal" min="1" placeholder="Enter minutes"><br>
-        <button onclick="setGoal()">Set Goal</button>
-      </div>
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <p><strong>Best Streak:</strong> <span id="bestStreak">0</span> hours</p>
+      <p><strong>Total Focused Minutes:</strong> <span id="totalMinutes">0</span></p>
+      <p><strong>Total Tasks Done:</strong> <span id="totalTasks">0</span></p>
+    </div>
+    
+    <!-- Progress Bar Section -->
+    <div class="progress-section">
+      <label for="progressBar"><strong>Today's Progress:</strong></label><br>
+      <progress id="progressBar" value="0" max="100"></progress>
+    </div>
+    
+    <!-- Goal Section -->
+    <div class="goal-section">
+      <label for="dailyGoal"><strong>Set Study Goal (min):</strong></label><br>
+      <input type="number" id="dailyGoal" min="1" placeholder="Enter minutes"><br>
+      <button onclick="setGoal()">Set Goal</button>
+    </div>
 
-      <!-- Notes Section -->
-      <div class="notes-section card">
-        <label for="quickNotes"><strong>Quick Notes</strong></label><br>
-        <textarea id="quickNotes" rows="3" placeholder="Write your notes here..."></textarea><br>
-        <button onclick="saveNotes()">Save</button>
-      </div>
+    <!-- Notes Section -->
+    <div class="notes-section">
+      <label for="quickNotes"><strong>Quick Notes</strong></label><br>
+      <textarea id="quickNotes" rows="3" placeholder="Write your notes here..."></textarea><br>
+      <button onclick="saveNotes()">Save</button>
+    </div>
 
-      <!-- Chart Section -->
-      <div class="chart-wrap">
-        <canvas id="histChart" width="800" height="320" aria-label="Productivity chart"></canvas>
-      </div>
-    </section>
-  </main>
-
-    <video autoplay muted loop playsinline preload="auto" id="bg-video">
-    <source src="Fishes.mp4" type="video/mp4" />
-    Your browser does not support HTML5 video.
-  </video>
+    <!-- Chart Section -->
+    <div class="chart-wrap">
+      <canvas id="histChart" width="800" height="320" aria-label="Productivity chart"></canvas>
+    </div>
+  </section>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="Tracker.js"></script>
-  
-  <!-- Navigation JavaScript -->
-  <script>
-    // Mobile navigation toggle
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    navToggle.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-    });
-
-    // Close mobile menu when clicking on a link
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        
-        // Update active link
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-      });
-    });
-
-    // Smooth scrolling for navigation links
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href');
-        const targetSection = document.querySelector(targetId);
-        
-        if (targetSection) {
-          targetSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-
-    // Update active link on scroll
-    window.addEventListener('scroll', () => {
-      const sections = document.querySelectorAll('section[id]');
-      const scrollPos = window.scrollY + 100;
-
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-        const sectionId = section.getAttribute('id');
-
-        if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-          navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${sectionId}`) {
-              link.classList.add('active');
-            }
-          });
-        }
-      });
-    });
-  </script>
 </body>
 </html>
