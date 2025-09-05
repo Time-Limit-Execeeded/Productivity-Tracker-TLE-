@@ -202,6 +202,55 @@
       font-weight: 600;
       background: rgba(0,0,0,0.4);
     }
+.spotify-panel {
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  width: 320px;
+  height: 500px;
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+.spotify-panel .amb {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  background: rgba(20, 20, 20, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 12px 12px 0 0;
+  flex-shrink: 0;
+  /* ❌ sticky removed */
+}
+
+.spotify-tracks {
+  flex-grow: 1;
+  overflow-y: auto;   /* scroll yahan hoga */
+  padding: 10px;
+}
+
+/* Scrollbar styling */
+.spotify-tracks::-webkit-scrollbar {
+  width: 8px;
+}
+.spotify-tracks::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.4);
+  border-radius: 10px;
+}
+.spotify-tracks::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
 
     .quote {
       margin-top: 2rem;
@@ -323,6 +372,16 @@
       </div>
     </section>
   </main>
+
+<div class="spotify-panel">
+  <h3 class="amb">Ambient Music</h3>
+  <div class="spotify-tracks">
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/62mFjcWGkt2OY9LT9EvxS2?utm_source=generator" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/04boE4u1AupbrGlI62WvoO?utm_source=generator" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6b5mdCKyPveuHjUMaCcxPt?utm_source=generator" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2Umf3B7gYhkocbveXW35Ui?utm_source=generator" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+  </div>
+</div>
 
   <footer class="footer">
     <span>© <span id="year"></span> Flowfy</span>

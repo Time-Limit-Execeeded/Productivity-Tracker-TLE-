@@ -18,6 +18,7 @@
       z-index: -1;
     }
 
+    
     body {
       margin: 0;
       min-height: 100vh;
@@ -80,6 +81,64 @@
       transition: all 0.3s ease;
       cursor: pointer;
     }
+
+    .spotify-panel {
+  position: fixed;
+  top: 100px;   /* navbar se neeche aayega */
+  right: 20px;
+  width: 300px;
+  height: 450px;
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-family: Arial, sans-serif;
+  z-index: 2000;
+  overflow: hidden;  /* andar hi scroll hoga */
+}
+
+.spotify-panel .amb {
+  margin: 0;
+  padding: 12px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  background: rgba(20, 20, 20, 0.8);
+  border-radius: 16px 16px 0 0;
+  flex-shrink: 0;
+}
+
+.spotify-tracks {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* Scrollbar styling */
+.spotify-tracks::-webkit-scrollbar {
+  width: 8px;
+}
+.spotify-tracks::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.4);
+  border-radius: 10px;
+}
+.spotify-tracks::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* Hide scrollbars inside each Spotify iframe */
+.spotify-tracks iframe {
+  overflow: hidden !important;
+  scrollbar-width: none !important; /* Firefox */
+}
+
+.spotify-tracks iframe::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari */
+}
+
+
 
     .nav-link:hover {
       background: rgba(255, 255, 255, 0.1);
