@@ -1,36 +1,10 @@
-<<<<<<< HEAD
-/* Basic reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-#bg-video {
-=======
 /* Background video */
     #bg-video {
->>>>>>> 534e50e69d6c60d5e2355210933f43a18f419ac6
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100vh;
       object-fit: cover;
-<<<<<<< HEAD
-      z-index: -1;
-      pointer-events: none;
-      filter: brightness(0.5);
-    }
-body {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #a445b2, #7bded4, #9ee3f6);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2rem;
-  color: #fff;
-}
-=======
       z-index: -2;
       pointer-events: none;
     }
@@ -43,7 +17,6 @@ body {
       opacity: 0.65;
       z-index: -1;
     }
->>>>>>> 534e50e69d6c60d5e2355210933f43a18f419ac6
 
     body {
       margin: 0;

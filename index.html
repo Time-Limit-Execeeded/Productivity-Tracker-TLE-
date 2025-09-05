@@ -22,14 +22,7 @@
       <a href="checklist.html" target="_blank" class="card">Checklist</a>
     </div>
   </div>
-<<<<<<< HEAD
-=======
-<!-- <<<<<<< HEAD -->
 
- <!-- 🔹 Toggle ka JS (normal script) -->
-=======
-<!-- >>>>>>> dabd9a05890cb06dfbf021d7283144d601e4c673 -->
-  <script>
     const loginBtn = document.getElementById("loginBtn");
     const signupBtn = document.getElementById("signupBtn");
     const loginForm = document.getElementById("loginForm");
@@ -49,8 +42,6 @@
       loginForm.classList.remove("active");
     });
   </script>
-
-<!-- Firebase SDKs -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
   import { 
@@ -73,7 +64,6 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // Signup
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = signupForm.querySelector('input[placeholder="Email"]').value;
@@ -90,7 +80,6 @@
     }
   });
 
-  // Login
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = loginForm.querySelector('input[placeholder="Email"]').value;
@@ -100,8 +89,7 @@
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       alert(`Welcome back, ${user.displayName || "User"}!`);
-
-      // ✅ Redirect
+      
       window.location.href = "landing.html";
     } catch (error) {
       alert(error.message);
@@ -110,6 +98,5 @@
 </script>
 
 
->>>>>>> 534e50e69d6c60d5e2355210933f43a18f419ac6
 </body>
 </html>
