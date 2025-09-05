@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tracker - Student Productivity Center</title>
+  <link rel="stylesheet" href="Tracker.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+<<<<<<< HEAD
   <style>
     /* Background Video */
     #bg-video {
@@ -191,52 +193,106 @@
 
   
   <!-- Background Video -->
+=======
+  
+</head>
+<body>
+
+  <!-- Background video -->
+>>>>>>> 01ed66828de32f36fc78e7614a7e67f13b03e799
   <video autoplay muted loop playsinline preload="auto" id="bg-video">
-    <source src="Fishes.mp4" type="video/mp4" />
+    <source src="jellyfish.mp4" type="video/mp4" />
     Your browser does not support HTML5 video.
   </video>
   <div class="overlay"></div>
 
-  <!-- Tracker Card -->
-  <section id="tracker" class="card">
-    <h1 class="tracker-title">Tracker</h1>
+  <main class="tracker-page">
+    <section id="tracker" class="card">
+      <!-- Tracker Header -->
+      <h1 class="tracker-title">Tracker</h1>
 
-    <!-- Stats Row -->
-    <div class="stats-row">
-      <p><strong>Best Streak:</strong> <span id="bestStreak">0</span> hours</p>
-      <p><strong>Total Focused Minutes:</strong> <span id="totalMinutes">0</span></p>
-      <p><strong>Total Tasks Done:</strong> <span id="totalTasks">0</span></p>
-    </div>
-    
-    <!-- Progress Bar Section -->
-    <div class="progress-section">
-      <label for="progressBar"><strong>Today's Progress:</strong></label><br>
-      <progress id="progressBar" value="0" max="100"></progress>
-    </div>
-    
-    <!-- Goal Section -->
-    <div class="goal-section">
-      <label for="dailyGoal"><strong>Set Study Goal (min):</strong></label><br>
-      <input type="number" id="dailyGoal" min="1" placeholder="Enter minutes"><br>
-      <button onclick="setGoal()">Set Goal</button>
-    </div>
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <p><strong>Best Streak:</strong> <span id="bestStreak">0</span> hours</p>
+        <p><strong>Total Focused Minutes:</strong> <span id="totalMinutes">0</span></p>
+        <p><strong>Total Tasks Done:</strong> <span id="totalTasks">0</span></p>
+      </div>
+      
+      <!-- Progress Bar Section -->
+      <div class="progress-section">
+        <label for="progressBar"><strong>Today's Progress (Focused Minutes / 960 min):</strong></label><br>
+        <progress id="progressBar" value="0" max="100"></progress>
+        <div class="progress-info">
+          <small>Shows percentage of day spent in focused work</small>
+        </div>
+      </div>
+      
+      <!-- Goal Setting Section -->
+      <div class="goal-section card">
+        <label for="dailyGoal"><strong>Set Study Goal (min):</strong></label><br>
+        <input type="number" id="dailyGoal" min="1" placeholder="Enter minutes"><br>
+        <button onclick="setGoal()">Set Goal</button>
+      </div>
 
-    <!-- Notes Section -->
-    <div class="notes-section">
-      <label for="quickNotes"><strong>Quick Notes</strong></label><br>
-      <textarea id="quickNotes" rows="3" placeholder="Write your notes here..."></textarea><br>
-      <button onclick="saveNotes()">Save</button>
-    </div>
+      <!-- Notes Section -->
+      <div class="notes-section card">
+        <label for="quickNotes"><strong>Quick Notes</strong></label><br>
+        <textarea id="quickNotes" rows="3" placeholder="Write your notes here..."></textarea><br>
+        <button onclick="saveNotes()">Save</button>
+      </div>
 
-    <!-- Chart Section -->
-    <div class="chart-wrap">
-      <canvas id="histChart" width="800" height="320" aria-label="Productivity chart"></canvas>
-    </div>
-  </section>
+      <!-- Completed Tasks Bar Chart Section -->
+      <div class="chart-section card">
+        <h3 class="chart-title">Completed Tasks Analysis</h3>
+        <div class="chart-container">
+          <canvas id="taskChart" width="800" height="400" aria-label="Completed tasks duration chart"></canvas>
+        </div>
+        <div class="chart-info">
+          <p class="chart-description">This chart shows the duration of your completed tasks. It updates automatically when you complete new tasks.</p>
+        </div>
+      </div>
+
+      <!-- Stats Pie Chart Section -->
+      <div class="chart-section card">
+        <h3 class="chart-title">Productivity Statistics</h3>
+        <div class="chart-container">
+          <canvas id="statsPieChart" width="400" height="400" aria-label="Productivity statistics pie chart"></canvas>
+        </div>
+        <div class="chart-info">
+          <p class="chart-description">This pie chart shows your 24-hour daily breakdown: focused work time, 6-hour sleep, and other activities.</p>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+    <video autoplay muted loop playsinline preload="auto" id="bg-video">
+    <source src="Fishes.mp4" type="video/mp4" />
+    Your browser does not support HTML5 video.
+  </video>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="Tracker.js"></script>
+<<<<<<< HEAD
 
   
+=======
+  <script>
+    // Ensure chart initializes after everything loads
+    window.addEventListener('load', function() {
+      console.log('Window loaded, ensuring chart initialization...');
+      if (typeof initializeTracker === 'function') {
+        initializeTracker();
+      } else {
+        console.log('initializeTracker function not found, trying direct initialization...');
+        setTimeout(() => {
+          if (typeof initializeTracker === 'function') {
+            initializeTracker();
+          }
+        }, 500);
+      }
+    });
+  </script>
+>>>>>>> 01ed66828de32f36fc78e7614a7e67f13b03e799
 </body>
 </html>

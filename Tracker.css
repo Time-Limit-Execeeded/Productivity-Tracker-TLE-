@@ -146,7 +146,6 @@
       align-items: center;
       padding: 2rem;
       width: 100%;
-      margin-top: 80px; /* Account for fixed navbar */
     }
 
     .card {
@@ -160,6 +159,8 @@
       width: 100%;
       max-width: 900px;
       text-align: center;
+      overflow: hidden;
+      box-sizing: border-box;
     }
 
     .tracker-title {
@@ -182,6 +183,15 @@
       margin: 2rem 0;
       text-align: center;
     }
+
+    .progress-info {
+      margin-top: 0.5rem;
+    }
+
+    .progress-info small {
+      color: rgba(255, 255, 255, 0.7);
+      font-style: italic;
+    }
     progress {
       width: 80%;
       height: 20px;
@@ -194,11 +204,11 @@
       border-radius: 10px;
     }
     progress::-webkit-progress-value {
-      background: linear-gradient(90deg, #00aaff, #87ceeb);
+      background: linear-gradient(90deg, #ff6b6b, #ff8e8e);
       border-radius: 10px;
     }
     progress::-moz-progress-bar {
-      background: linear-gradient(90deg, #00aaff, #87ceeb);
+      background: linear-gradient(90deg, #ff6b6b, #ff8e8e);
       border-radius: 10px;
     }
 
@@ -245,26 +255,89 @@
     }
 
     canvas {
-      background: rgba(0,0,0,0.25);
+      background: transparent;
       border-radius: 14px;
-      padding: 1rem;
+      padding: 0.5rem;
       max-width: 100%;
     }
 
-    /* Sidebar */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: -220px; /* hidden by default */
-  width: 220px;
-  height: 100%;
-  background: skyblue;
-  transition: left 0.3s ease;
-  padding-top: 60px;
-  z-index: 1000;
-}
+    /* Completed Tasks Chart Section */
+    .chart-section {
+      margin: 2rem auto;
+      text-align: center;
+      width: 100%;
+      max-width: 1000px;
+      overflow: hidden;
+    }
 
-.sidebar.open {
-  left: 0;
-}
+    .chart-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: white;
+      text-align: center;
+    }
 
+    .chart-container {
+      position: relative;
+      height: 400px;
+      width: 100%;
+      margin: 1rem 0;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 16px;
+      padding: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .chart-container canvas {
+      background: transparent !important;
+      border-radius: 12px;
+      padding: 0.5rem;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .chart-info {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .chart-description {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 0;
+      font-style: italic;
+    }
+
+    /* Responsive chart styling */
+    @media (max-width: 768px) {
+      .chart-container {
+        height: 300px;
+        padding: 1rem;
+      }
+
+      .chart-title {
+        font-size: 1.5rem;
+      }
+
+      .chart-description {
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .chart-container {
+        height: 250px;
+        padding: 0.8rem;
+      }
+
+      .chart-title {
+        font-size: 1.3rem;
+      }
+    }
