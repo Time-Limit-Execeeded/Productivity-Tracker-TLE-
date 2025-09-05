@@ -142,7 +142,7 @@
     </form>
   </div>
 
-  <!-- ✅ Yaha JS likhna tha -->
+ <!-- 🔹 Toggle ka JS (normal script) -->
   <script>
     const loginBtn = document.getElementById("loginBtn");
     const signupBtn = document.getElementById("signupBtn");
@@ -163,5 +163,66 @@
       loginForm.classList.remove("active");
     });
   </script>
+
+<!-- Firebase SDKs -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+  import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    updateProfile 
+  } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+  const firebaseConfig = {
+  apiKey: "AIzaSyCvLtoG2Mw__VaKf7riJ27qZ9ynDMTD7Pw",
+  authDomain: "productivity-hub-backend.firebaseapp.com",
+  projectId: "productivity-hub-backend",
+  storageBucket: "productivity-hub-backend.firebasestorage.app",
+  messagingSenderId: "599841805629",
+  appId: "1:599841805629:web:f0df811dd7820a0292e154",
+  measurementId: "G-SK8E22S8P5"
+};
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Signup
+  signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = signupForm.querySelector('input[placeholder="Email"]').value;
+    const password = signupForm.querySelector('input[placeholder="Password"]').value;
+    const name = signupForm.querySelector('input[placeholder="Name"]').value;
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, { displayName: name });
+      alert("Signup successful 🎉 Now login with your account.");
+      signupForm.reset();
+    } catch (error) {
+      alert(error.message);
+    }
+  });
+
+  // Login
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = loginForm.querySelector('input[placeholder="Email"]').value;
+    const password = loginForm.querySelector('input[placeholder="Password"]').value;
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      alert(`Welcome back, ${user.displayName || "User"}!`);
+
+      // ✅ Redirect
+      window.location.href = "landing.html";
+    } catch (error) {
+      alert(error.message);
+    }
+  });
+</script>
+
+
 </body>
 </html>
