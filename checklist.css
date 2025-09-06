@@ -723,7 +723,7 @@ main {
   transform: translateY(-50%);
   width: 35px;
   height: 60px;
-  background: rgba(0, 31, 77, 0.95);
+  background: black;
   color: white;
   display: flex;
   align-items: center;
