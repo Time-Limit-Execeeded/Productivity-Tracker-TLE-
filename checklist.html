@@ -5,8 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CheckList</title>
   <link rel="stylesheet" href="checklist.css">
+  <style>
+    /* Background video ko properly fullscreen set karna */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      object-fit: cover;
+    }
+
+    /* Overlay thoda dark transparent background ke liye */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4); /* thoda dark karne ke liye */
+      z-index: -1;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- ✅ Background video -->
+  <video autoplay muted loop playsinline preload="auto" id="bg-video">
+    <source src="seawtr.mp4" type="video/mp4" />
+    Your browser does not support HTML5 video.
+  </video>
+  <div class="overlay"></div>
+
   <div class="background-decoration"></div>
   <div class="container">
     <header>
@@ -58,39 +91,37 @@
           <div id="completion" class="task-count">0% complete</div>
         </div>
       </div>
-      Restriction</h3></a>
-      <br><br><br
     </main>
 
     <footer>
       <p>Copyright &copy; - Time Limit Exceeded</p>
     </footer>
   </div>
- <!-- Sidebar -->
-<div class="sidebar" id="sidebar">
-  <a href="landing.html"target="_blank"><h3>Home</h3></a>
-  <a href="pomodoro.html"target="_blank"><h3>Pomodoro</h3></a>
-  <a href="Tracker.html"target="_blank"><h3>Habit Tracker</h3></a>
-  <a href="checklist.html"target="_blank"><h3>Checklist</h3></a>
-  <a href="#"><h3>Restriction</h3></a>
-  <a href="index.html"target="_blank"><h3>Login</h3></a>
-  
-</div>
 
-<!-- Toggle Arrow -->
-<div class="toggle-btn" id="toggleBtn">
-  <span>➤</span>
-</div>
-<!-- Script -->
-<script>
-  const sidebar = document.getElementById('sidebar');
-  const toggleBtn = document.getElementById('toggleBtn');
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="landing.html" target="_blank"><h3>Home</h3></a>
+    <a href="pomodoro.html" target="_blank"><h3>Pomodoro</h3></a>
+    <a href="Tracker.html" target="_blank"><h3>Habit Tracker</h3></a>
+    <a href="checklist.html" target="_blank"><h3>Checklist</h3></a>
+    <a href="#"><h3>Restriction</h3></a>
+    <a href="index.html" target="_blank"><h3>Login</h3></a>
+  </div>
 
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('open');
-  });
-</script>
+  <!-- Toggle Arrow -->
+  <div class="toggle-btn" id="toggleBtn">
+    <span>➤</span>
+  </div>
 
+  <!-- Script -->
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleBtn');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+  </script>
 
   <!-- Checklist + Firebase Scripts -->
   <script src="checklist.js"></script>
@@ -121,7 +152,6 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // ✅ Firestore me task complete hone par +5 points
     async function checklistComplete(uid) {
       const userRef = doc(db, "users", uid);
       await updateDoc(userRef, {
@@ -131,15 +161,12 @@
       console.log("✅ Task completed! +5 points");
     }
 
-    // ✅ User login check
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // Jab checkbox tick hoga to call karega
         window.updateChecklistScore = () => checklistComplete(user.uid);
       }
     });
 
-    //Checklist ke checkbox detect karo
     document.addEventListener("change", (e) => {
       if (e.target.matches("#tasks input[type=checkbox]") && e.target.checked) {
         window.updateChecklistScore && window.updateChecklistScore();

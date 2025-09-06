@@ -21,6 +21,33 @@
   --glow: 0 0 0 3px rgba(99, 102, 241, 0.3);
 }
 
+.task-card {
+  background: rgba(28, 28, 28, 0.4);   /* transparent dark */
+  backdrop-filter: blur(15px);         /* glass blur effect */
+  -webkit-backdrop-filter: blur(15px); /* Safari ke liye */
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -2;   /* hamesha sabse piche */
+}
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4); /* dark overlay for contrast */
+  z-index: -1;
+}
 @media (prefers-color-scheme: light) {
   :root {
     --bg: #f8fafc;
