@@ -187,6 +187,12 @@ function elFor(t) {
 function toggle(id) {
   tasks = tasks.map(t => {
     if (t.id === id) {
+      // ✅ Check if proof exists before marking done
+      if (!t.proof) {
+        alert("Please upload a proof image before marking this task as complete!");
+        return t; // return task as-is, don't toggle
+      }
+
       const updatedTask = { ...t, done: !t.done };
       if (updatedTask.done) {
         const alreadyCompleted = completedTasks.some(ct => ct.id === id);
@@ -199,6 +205,7 @@ function toggle(id) {
   save();
   render();
 }
+
 
 function removeTask(id) {
   const li = tasksEl.querySelector(`[data-id='${id}']`);
@@ -296,3 +303,4 @@ toggleBtn.addEventListener("click", () => {
   sidebar.classList.toggle("open");
   toggleBtn.classList.toggle("open");
 });
+
