@@ -10,8 +10,9 @@ const progressFillEl = document.getElementById("progressFill");
 const emptyMsg = document.getElementById("emptyMsg");
 const filters = document.querySelectorAll(".filter-btn[data-filter]");
 let filter = "all";
-export let tasks = load();
+ let tasks = load();
 
+console.log("Checklist loaded ✅");
 function loadCompletedTasks() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY2);
@@ -21,19 +22,21 @@ function loadCompletedTasks() {
   }
 }
 
-export let completedTasks = loadCompletedTasks();
+ let completedTasks = loadCompletedTasks();
 render();
 
 addBtn.addEventListener("click", onAdd);
 newTaskInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") onAdd();
 });
+newTimeInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") onAdd();
+});
 
 document.getElementById("clearCompleted").addEventListener("click", () => {
-  // Only clear completed tasks from current tasks, keep completedTasks intact
   tasks = tasks.filter((t) => !t.done);
   localStorage.removeItem(STORAGE_KEY2);
-  completedTasks = []
+  completedTasks = [];
   save();
   render();
 });
@@ -48,17 +51,22 @@ filters.forEach((btn) =>
 );
 
 function onAdd() {
-  console.log(completedTasks);
   const v = newTaskInput.value.trim();
   const duration = Number(newTimeInput.value);
-  
+
   if (!v) return flash(newTaskInput);
-  if (!duration || duration < 1) return flash(newTimeInput);
-  
-  const t = { id: cryptoId(), text: v, done: false, created: Date.now(), duration: duration};
+
+  const t = {
+    id: cryptoId(),
+    text: v,
+    done: false,
+    created: Date.now(),
+    duration: duration > 0 ? duration : null, // ✅ optional duration
+  };
+
   tasks.unshift(t);
   newTaskInput.value = "";
-  newTimeInput.value = ""; // Clear the time input
+  newTimeInput.value = "";
   save();
   render();
   focusTask(t.id);
@@ -70,27 +78,22 @@ function render() {
   if (filter === "active") {
     shown = tasks.filter((t) => !t.done);
   } else if (filter === "completed") {
-    // Show completed tasks from both current tasks and stored completedTasks
     const currentCompleted = tasks.filter((t) => t.done);
     shown = [...currentCompleted, ...completedTasks];
   } else {
     shown = tasks;
   }
 
-  if (shown.length === 0) {
-    emptyMsg.hidden = false;
-  } else {
-    emptyMsg.hidden = true;
-  }
+  emptyMsg.hidden = shown.length !== 0;
 
   shown.forEach((t) => {
     tasksEl.appendChild(elFor(t));
   });
 
-  const completed = tasks.filter(t => t.done).length;
+  const completed = tasks.filter((t) => t.done).length;
   const total = tasks.length;
   const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
-  
+
   countEl.textContent = `${total} task${total !== 1 ? "s" : ""}`;
   completionEl.textContent = `${percentage}% complete`;
   progressFillEl.style.width = `${percentage}%`;
@@ -98,7 +101,7 @@ function render() {
 
 function elFor(t) {
   const li = document.createElement("li");
-  li.className = "task-item" + (t.done ? " completed" : "" );
+  li.className = "task-item" + (t.done ? " completed" : "");
   li.setAttribute("data-id", t.id);
   li.tabIndex = 0;
 
@@ -115,7 +118,7 @@ function elFor(t) {
   title.className = "task-text";
   title.innerHTML = `
     <span class="task-title">${t.text}</span>
-    <span class="task-duration">Duration : ${t.duration || 0} min</span>
+    <span class="task-duration">${t.duration ? `Duration: ${t.duration} min` : ""}</span>
   `;
   title.contentEditable = false;
   title.addEventListener("dblclick", () => startEdit(t.id));
@@ -164,10 +167,8 @@ function toggle(id) {
   tasks = tasks.map((t) => {
     if (t.id === id) {
       const updatedTask = { ...t, done: !t.done };
-      // If task is being marked as completed, add it to completedTasks
       if (updatedTask.done) {
-        // Check if task is not already in completedTasks
-        const alreadyCompleted = completedTasks.some(ct => ct.id === id);
+        const alreadyCompleted = completedTasks.some((ct) => ct.id === id);
         if (!alreadyCompleted) {
           completedTasks.push(updatedTask);
         }
@@ -185,7 +186,6 @@ function removeTask(id) {
   if (li) {
     li.classList.add("removing");
     setTimeout(() => {
-      // Only remove from active tasks, keep in completedTasks if it was completed
       tasks = tasks.filter((t) => t.id !== id);
       save();
       render();
@@ -200,7 +200,6 @@ function startEdit(id) {
   title.contentEditable = true;
   title.focus();
 
-  // select all text
   const range = document.createRange();
   const sel = window.getSelection();
   range.selectNodeContents(title);
@@ -244,7 +243,6 @@ function save() {
     localStorage.setItem(STORAGE_KEY2, JSON.stringify(completedTasks));
   } catch (e) {
     console.warn("Could not save", e);
-    console.warn("Could not save", e);
   }
 }
 
@@ -259,17 +257,22 @@ function load() {
 
 function flash(el) {
   try {
-    el.animate([
-      { boxShadow: '0 0 0 0 rgba(239,68,68,0)' },
-      { boxShadow: '0 0 0 6px rgba(239,68,68,0.4)' },
-      { boxShadow: '0 0 0 0 rgba(239,68,68,0)' }
-    ], {
-      duration: 400,
-      easing: 'ease-out'
-    });
+    el.animate(
+      [
+        { boxShadow: "0 0 0 0 rgba(239,68,68,0)" },
+        { boxShadow: "0 0 0 6px rgba(239,68,68,0.4)" },
+        { boxShadow: "0 0 0 0 rgba(239,68,68,0)" },
+      ],
+      {
+        duration: 400,
+        easing: "ease-out",
+      }
+    );
   } catch (e) {
-    el.style.outline = '2px solid var(--danger)';
-    setTimeout(() => { el.style.outline = ''; }, 300);
+    el.style.outline = "2px solid var(--danger)";
+    setTimeout(() => {
+      el.style.outline = "";
+    }, 300);
   }
   el.focus();
 }
@@ -281,7 +284,9 @@ function cryptoId() {
   if (window.crypto && crypto.getRandomValues) {
     const buf = new Uint32Array(4);
     crypto.getRandomValues(buf);
-    return Array.from(buf).map(n => n.toString(16).padStart(8, '0')).join('');
+    return Array.from(buf)
+      .map((n) => n.toString(16).padStart(8, "0"))
+      .join("");
   }
-  return 'id-' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+  return "id-" + Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
