@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="checklist.css">
 </head>
 <body>
+  <video autoplay muted loop id="myVideo">
+  <source src="jelly 2.mp4" type="video/mp4">
+  </video>
   <div class="background-decoration"></div>
   <div class="container">
     <nav>
@@ -71,81 +74,6 @@
       <p>Copyright &copy; - Time Limit Exceeded</p>
     </footer>
   </div>
-
-  <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
-    <a href="landing.html" target="_blank"><h3>Home</h3></a>
-    <a href="pomodoro.html" target="_blank"><h3>Pomodoro</h3></a>
-    <a href="Tracker.html" target="_blank"><h3>Habit Tracker</h3></a>
-    <a href="checklist.html" target="_blank"><h3>Checklist</h3></a>
-    <a href="#"><h3>Restriction</h3></a>
-    <a href="index.html" target="_blank"><h3>Login</h3></a>
-  </div>
-
-  <!-- Toggle Arrow -->
-  <div class="toggle-btn" id="toggleBtn">
-    <span>➤</span>
-  </div>
-
-  <!-- Script -->
-  <script>
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('toggleBtn');
-
-    toggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-    });
-  </script>
-
-  <!-- Checklist + Firebase Scripts -->
-  <script src="checklist.js"></script>
-  <script type="module">
-    <!-- Firebase config code -->
-  </script>
-
-
-
-  <!-- ✅ Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-    import { getFirestore, doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
-
-    // ✅ Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyCvLtoG2Mw__VakF7riJ27qZ9ynDMTD7Pw",
-      authDomain: "productivity-hub-backend.firebaseapp.com",
-      projectId: "productivity-hub-backend",
-      storageBucket: "productivity-hub-backend.appspot.com",
-      messagingSenderId: "599841805629",
-      appId: "1:599841805629:web:fd8f811dd7820a0292e154",
-      measurementId: "G-SK8E22S8P5"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    async function checklistComplete(uid) {
-      const userRef = doc(db, "users", uid);
-      await updateDoc(userRef, {
-        tasksCompleted: increment(1),
-        score: increment(5)
-      });
-      console.log("✅ Task completed! +5 points");
-    }
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        window.updateChecklistScore = () => checklistComplete(user.uid);
-      }
-    });
-
-    document.addEventListener("change", (e) => {
-      if (e.target.matches("#tasks input[type=checkbox]") && e.target.checked) {
-        window.updateChecklistScore && window.updateChecklistScore();
-      }
-    });
-  </script>
-</body>
-</html>
+  <script type="module" src="checklist.js"></script>
+ </body>
+ </html>
