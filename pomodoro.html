@@ -53,6 +53,7 @@
       border: 1px solid rgba(255,255,255,0.15);
     }
 
+    /* Pomodoro Circle */
     .progress-circle {
       position: relative;
       width: 320px;
@@ -80,7 +81,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: target(-50%, -50%);
+      transform: translate(-50%, -50%); /* ✅ FIXED */
       font-size: 4rem;
       font-weight: 800;
       color: white;
@@ -123,7 +124,7 @@
       position: fixed;
       top: 50%;
       left: 0;
-      transform: targetY(-50%);
+      transform: translateY(-50%); /* ✅ FIXED */
       width: 35px;
       height: 60px;
       background: rgba(0,0,0,0.9);
@@ -145,6 +146,7 @@
     .sidebar.open ~ .toggle-btn { left: 220px; }
     .sidebar.open ~ .toggle-btn span { transform: rotate(180deg); }
 
+    /* Controls */
     .controls, .extra-controls {
       margin-top: 2rem;
       display: flex;
@@ -187,6 +189,7 @@
       background: rgba(0,0,0,0.4);
     }
 
+    /* Spotify Panel */
     .spotify-panel {
       position: fixed;
       top: 120px;
@@ -234,13 +237,11 @@
 
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
-    <br>
-    <a href="landing.html" target="_blank"><h3>Home</h3></a><br><br><br>
-    <a href="pomodoro.html"target="_blank"><h3>Pomodoro</h3></a><br><br><br>
-    <a href="Tracker.html"target="_blank"><h3>Habit Tracker</h3></a><br><br><br>
-    <a href="checklist.html"target="_blank"><h3>Checklist</h3></a><br><br><br>
-    <a href="index.html"target="_blank"><h3>Login</h3></a><br><br><br>
-    <br>
+    <a href="landing.html" target="_blank"><h3>Home</h3></a>
+    <a href="pomodoro.html" target="_blank"><h3>Pomodoro</h3></a>
+    <a href="Tracker.html" target="_blank"><h3>Habit Tracker</h3></a>
+    <a href="checklist.html" target="_blank"><h3>Checklist</h3></a>
+    <a href="index.html" target="_blank"><h3>Login</h3></a>
   </div>
 
   <!-- Toggle Arrow -->
