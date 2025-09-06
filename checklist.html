@@ -5,43 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CheckList</title>
   <link rel="stylesheet" href="checklist.css">
-  <style>
-    /* Background video ko properly fullscreen set karna */
-    #bg-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      min-width: 100%;
-      min-height: 100%;
-      width: auto;
-      height: auto;
-      z-index: -1;
-      object-fit: cover;
-    }
-
-    /* Overlay thoda dark transparent background ke liye */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.4); /* thoda dark karne ke liye */
-      z-index: -1;
-    }
-  </style>
 </head>
 <body>
-
-  <!-- ✅ Background video -->
-  <video autoplay muted loop playsinline preload="auto" id="bg-video">
-    <source src="jelly 2.mp4" type="video/mp4" />
-    Your browser does not support HTML5 video.
-  </video>
-  <div class="overlay"></div>
-
   <div class="background-decoration"></div>
   <div class="container">
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Tracker.html">Tracker</a></li>
+        <li><a href="pomodoro.html">Pomodoro</a></li>
+      </ul>
+    </nav>
     <header>
       <div class="header-content">
         <div class="logo">✓</div>
