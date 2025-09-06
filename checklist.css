@@ -717,24 +717,23 @@ main {
 
 /* Toggle Button */
 .toggle-btn {
-  position: fixed;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  width: 35px;
-  height: 60px;
-  background: black;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0 8px 8px 0;
-  cursor: pointer;
-  z-index: 1100;
-  transition: left 0.3s ease;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
+position: fixed;
+top: 50%;
+left: 0;
+transform: translateY(-50%); 
+width: 35px;
+height: 60px;
+background: rgba(0,0,0,0.9);
+color: white;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 0 8px 8px 0;
+cursor: pointer;
+z-index: 1100;
+transition: left 0.3s ease;
+border: 1px solid rgba(255,255,255,0.1);
+    }
 .toggle-btn span {
   font-size: 20px;
   transition: transform 0.3s;
