@@ -94,7 +94,14 @@
   <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="Tracker.js"></script>
   <script>
-    // Ensure chart initializes after everything loads
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleBtn');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+
+    // Chart initialization
     window.addEventListener('load', function() {
       console.log('Window loaded, ensuring chart initialization...');
       if (typeof initializeTracker === 'function') {
