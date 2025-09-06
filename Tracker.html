@@ -6,6 +6,7 @@
   <title>Tracker - Student Productivity Center</title>
   <link rel="stylesheet" href="Tracker.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  
 </head>
 <body>
 
@@ -72,36 +73,19 @@
           <p class="chart-description">This pie chart shows your 24-hour daily breakdown: focused work time, 6-hour sleep, and other activities.</p>
         </div>
       </div>
+
     </section>
   </main>
 
-  <!-- Spotify Panel
-  <div class="spotify-panel">
-    <h3 class="amb">Ambient Music</h3>
-    <div class="spotify-tracks">
-      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/62mFjcWGkt2OY9LT9EvxS2?utm_source=generator" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/04boE4u1AupbrGlI62WvoO?utm_source=generator" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6b5mdCKyPveuHjUMaCcxPt?utm_source=generator" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2Umf3B7gYhkocbveXW35Ui?utm_source=generator" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-    </div>
-  </div> -->
-
-  <video autoplay muted loop playsinline preload="auto" id="bg-video">
+    <video autoplay muted loop playsinline preload="auto" id="bg-video">
     <source src="Fishes.mp4" type="video/mp4" />
     Your browser does not support HTML5 video.
   </video>
 
-  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="Tracker.js"></script>
   <script>
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('toggleBtn');
-
-    toggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-    });
-
-    // Chart initialization
+    // Ensure chart initializes after everything loads
     window.addEventListener('load', function() {
       console.log('Window loaded, ensuring chart initialization...');
       if (typeof initializeTracker === 'function') {
@@ -115,6 +99,6 @@
         }, 500);
       }
     });
-  </script> -->
+  </script>
 </body>
 </html>
