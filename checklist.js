@@ -33,7 +33,7 @@ document.getElementById("clearCompleted").addEventListener("click", () => {
   // Only clear completed tasks from current tasks, keep completedTasks intact
   tasks = tasks.filter((t) => !t.done);
   localStorage.removeItem(STORAGE_KEY2);
-  completedTasks = []
+  completedTasks = [];
   save();
   render();
 });
@@ -51,11 +51,17 @@ function onAdd() {
   console.log(completedTasks);
   const v = newTaskInput.value.trim();
   const duration = Number(newTimeInput.value);
-  
+
   if (!v) return flash(newTaskInput);
   if (!duration || duration < 1) return flash(newTimeInput);
-  
-  const t = { id: cryptoId(), text: v, done: false, created: Date.now(), duration: duration};
+
+  const t = {
+    id: cryptoId(),
+    text: v,
+    done: false,
+    created: Date.now(),
+    duration: duration,
+  };
   tasks.unshift(t);
   newTaskInput.value = "";
   newTimeInput.value = ""; // Clear the time input
@@ -87,10 +93,10 @@ function render() {
     tasksEl.appendChild(elFor(t));
   });
 
-  const completed = tasks.filter(t => t.done).length;
+  const completed = tasks.filter((t) => t.done).length;
   const total = tasks.length;
   const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
-  
+
   countEl.textContent = `${total} task${total !== 1 ? "s" : ""}`;
   completionEl.textContent = `${percentage}% complete`;
   progressFillEl.style.width = `${percentage}%`;
@@ -98,7 +104,7 @@ function render() {
 
 function elFor(t) {
   const li = document.createElement("li");
-  li.className = "task-item" + (t.done ? " completed" : "" );
+  li.className = "task-item" + (t.done ? " completed" : "");
   li.setAttribute("data-id", t.id);
   li.tabIndex = 0;
 
@@ -167,7 +173,7 @@ function toggle(id) {
       // If task is being marked as completed, add it to completedTasks
       if (updatedTask.done) {
         // Check if task is not already in completedTasks
-        const alreadyCompleted = completedTasks.some(ct => ct.id === id);
+        const alreadyCompleted = completedTasks.some((ct) => ct.id === id);
         if (!alreadyCompleted) {
           completedTasks.push(updatedTask);
         }
@@ -259,17 +265,22 @@ function load() {
 
 function flash(el) {
   try {
-    el.animate([
-      { boxShadow: '0 0 0 0 rgba(239,68,68,0)' },
-      { boxShadow: '0 0 0 6px rgba(239,68,68,0.4)' },
-      { boxShadow: '0 0 0 0 rgba(239,68,68,0)' }
-    ], {
-      duration: 400,
-      easing: 'ease-out'
-    });
+    el.animate(
+      [
+        { boxShadow: "0 0 0 0 rgba(239,68,68,0)" },
+        { boxShadow: "0 0 0 6px rgba(239,68,68,0.4)" },
+        { boxShadow: "0 0 0 0 rgba(239,68,68,0)" },
+      ],
+      {
+        duration: 400,
+        easing: "ease-out",
+      }
+    );
   } catch (e) {
-    el.style.outline = '2px solid var(--danger)';
-    setTimeout(() => { el.style.outline = ''; }, 300);
+    el.style.outline = "2px solid var(--danger)";
+    setTimeout(() => {
+      el.style.outline = "";
+    }, 300);
   }
   el.focus();
 }
@@ -281,7 +292,17 @@ function cryptoId() {
   if (window.crypto && crypto.getRandomValues) {
     const buf = new Uint32Array(4);
     crypto.getRandomValues(buf);
-    return Array.from(buf).map(n => n.toString(16).padStart(8, '0')).join('');
+    return Array.from(buf)
+      .map((n) => n.toString(16).padStart(8, "0"))
+      .join("");
   }
-  return 'id-' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+  return "id-" + Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
+
+const sidebar = document.getElementById("sidebar");
+const toggleBtn = document.getElementById("toggleBtn");
+
+toggleBtn.addEventListener("click", () => {
+  sidebar.classList.toggle("open");
+  toggleBtn.classList.toggle("open");
+});

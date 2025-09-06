@@ -690,3 +690,69 @@ footer {
   pointer-events: none;
   filter: brightness(0.5);
 }
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -220px; /* hidden initially */
+  width: 220px;
+  height: 100%;
+  background: black;
+  backdrop-filter: blur(8px);
+  transition: left 0.3s ease;
+  padding-top: 60px;
+  z-index: 1000;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar a {
+  display: block;
+  padding: 15px 20px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.1);
+  color: #87ceeb;
+  border-radius: 8px;
+}
+
+/* Toggle Button */
+.toggle-btn {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 35px;
+  height: 60px;
+  background:black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  z-index: 1100;
+  transition: left 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.toggle-btn span {
+  font-size: 20px;
+  transition: transform 0.3s;
+}
+
+.sidebar.open ~ .toggle-btn {
+  left: 220px;
+}
+
+.sidebar.open ~ .toggle-btn span {
+  transform: rotate(180deg);
+}
