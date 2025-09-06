@@ -30,7 +30,6 @@ newTaskInput.addEventListener("keydown", (e) => {
 });
 
 document.getElementById("clearCompleted").addEventListener("click", () => {
-  // Only clear completed tasks from current tasks, keep completedTasks intact
   tasks = tasks.filter((t) => !t.done);
   localStorage.removeItem(STORAGE_KEY2);
   completedTasks = [];
@@ -48,7 +47,6 @@ filters.forEach((btn) =>
 );
 
 function onAdd() {
-  console.log(completedTasks);
   const v = newTaskInput.value.trim();
   const duration = Number(newTimeInput.value);
 
@@ -61,10 +59,11 @@ function onAdd() {
     done: false,
     created: Date.now(),
     duration: duration,
+    proof: null // ✅ initialize proof field
   };
   tasks.unshift(t);
   newTaskInput.value = "";
-  newTimeInput.value = ""; // Clear the time input
+  newTimeInput.value = "";
   save();
   render();
   focusTask(t.id);
@@ -76,18 +75,13 @@ function render() {
   if (filter === "active") {
     shown = tasks.filter((t) => !t.done);
   } else if (filter === "completed") {
-    // Show completed tasks from both current tasks and stored completedTasks
     const currentCompleted = tasks.filter((t) => t.done);
     shown = [...currentCompleted, ...completedTasks];
   } else {
     shown = tasks;
   }
 
-  if (shown.length === 0) {
-    emptyMsg.hidden = false;
-  } else {
-    emptyMsg.hidden = true;
-  }
+  emptyMsg.hidden = shown.length !== 0;
 
   shown.forEach((t) => {
     tasksEl.appendChild(elFor(t));
@@ -112,9 +106,7 @@ function elFor(t) {
   checkbox.type = "checkbox";
   checkbox.className = "task-checkbox";
   checkbox.checked = !!t.done;
-  checkbox.addEventListener("change", () => {
-    toggle(t.id);
-  });
+  checkbox.addEventListener("change", () => toggle(t.id));
   checkbox.setAttribute("aria-label", "Mark task as complete");
 
   const title = document.createElement("div");
@@ -127,16 +119,9 @@ function elFor(t) {
   title.addEventListener("dblclick", () => startEdit(t.id));
 
   li.addEventListener("keydown", (e) => {
-    if (e.key === " ") {
-      e.preventDefault();
-      toggle(t.id);
-    }
-    if (e.key === "Delete") {
-      removeTask(t.id);
-    }
-    if (e.key === "Enter") {
-      startEdit(t.id);
-    }
+    if (e.key === " ") { e.preventDefault(); toggle(t.id); }
+    if (e.key === "Delete") removeTask(t.id);
+    if (e.key === "Enter") startEdit(t.id);
   });
 
   const actions = document.createElement("div");
@@ -154,29 +139,58 @@ function elFor(t) {
   delBtn.innerHTML = "🗑️";
   delBtn.addEventListener("click", () => removeTask(t.id));
 
+  // ✅ Proof upload input
+  const proofInput = document.createElement("input");
+  proofInput.type = "file";
+  proofInput.accept = "image/*";
+  proofInput.className = "proof-input";
+  proofInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const base64 = ev.target.result;
+        tasks = tasks.map(task =>
+          task.id === t.id ? { ...task, proof: base64 } : task
+        );
+        save();
+        render();
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
   actions.appendChild(editBtn);
   actions.appendChild(delBtn);
+  actions.appendChild(proofInput);
 
   li.appendChild(checkbox);
   li.appendChild(title);
   li.appendChild(actions);
 
-  setTimeout(() => li.classList.add("new-task"), 10);
+  // ✅ Show proof preview if exists
+  if (t.proof) {
+    const img = document.createElement("img");
+    img.src = t.proof;
+    img.alt = "Proof of work";
+    img.className = "proof-preview";
+    li.appendChild(img);
+  }
 
+
+
+  setTimeout(() => li.classList.add("new-task"), 10);
   return li;
 }
 
+
 function toggle(id) {
-  tasks = tasks.map((t) => {
+  tasks = tasks.map(t => {
     if (t.id === id) {
       const updatedTask = { ...t, done: !t.done };
-      // If task is being marked as completed, add it to completedTasks
       if (updatedTask.done) {
-        // Check if task is not already in completedTasks
-        const alreadyCompleted = completedTasks.some((ct) => ct.id === id);
-        if (!alreadyCompleted) {
-          completedTasks.push(updatedTask);
-        }
+        const alreadyCompleted = completedTasks.some(ct => ct.id === id);
+        if (!alreadyCompleted) completedTasks.push(updatedTask);
       }
       return updatedTask;
     }
@@ -191,8 +205,7 @@ function removeTask(id) {
   if (li) {
     li.classList.add("removing");
     setTimeout(() => {
-      // Only remove from active tasks, keep in completedTasks if it was completed
-      tasks = tasks.filter((t) => t.id !== id);
+      tasks = tasks.filter(t => t.id !== id);
       save();
       render();
     }, 300);
@@ -206,7 +219,6 @@ function startEdit(id) {
   title.contentEditable = true;
   title.focus();
 
-  // select all text
   const range = document.createRange();
   const sel = window.getSelection();
   range.selectNodeContents(title);
@@ -216,24 +228,16 @@ function startEdit(id) {
   function finish() {
     title.contentEditable = false;
     const newText = title.textContent.trim();
-    if (!newText) {
-      removeTask(id);
-    } else {
-      tasks = tasks.map((t) => (t.id === id ? { ...t, text: newText } : t));
-    }
+    if (!newText) removeTask(id);
+    else tasks = tasks.map(t => t.id === id ? { ...t, text: newText } : t);
     save();
     render();
   }
 
   title.addEventListener("blur", finish, { once: true });
   title.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      title.blur();
-    }
-    if (e.key === "Escape") {
-      render();
-    }
+    if (e.key === "Enter") { e.preventDefault(); title.blur(); }
+    if (e.key === "Escape") render();
   });
 }
 
@@ -248,19 +252,14 @@ function save() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
     localStorage.setItem(STORAGE_KEY2, JSON.stringify(completedTasks));
-  } catch (e) {
-    console.warn("Could not save", e);
-    console.warn("Could not save", e);
-  }
+  } catch (e) { console.warn("Could not save", e); }
 }
 
 function load() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) : [];
-  } catch (e) {
-    return [];
-  }
+  } catch (e) { return []; }
 }
 
 function flash(el) {
@@ -271,32 +270,23 @@ function flash(el) {
         { boxShadow: "0 0 0 6px rgba(239,68,68,0.4)" },
         { boxShadow: "0 0 0 0 rgba(239,68,68,0)" },
       ],
-      {
-        duration: 400,
-        easing: "ease-out",
-      }
+      { duration: 400, easing: "ease-out" }
     );
   } catch (e) {
     el.style.outline = "2px solid var(--danger)";
-    setTimeout(() => {
-      el.style.outline = "";
-    }, 300);
+    setTimeout(() => { el.style.outline = ""; }, 300);
   }
   el.focus();
 }
 
 function cryptoId() {
-  if (window.crypto && crypto.randomUUID) {
-    return crypto.randomUUID();
-  }
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
   if (window.crypto && crypto.getRandomValues) {
     const buf = new Uint32Array(4);
     crypto.getRandomValues(buf);
-    return Array.from(buf)
-      .map((n) => n.toString(16).padStart(8, "0"))
-      .join("");
+    return Array.from(buf).map(n => n.toString(16).padStart(8,"0")).join("");
   }
-  return "id-" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+  return "id-"+Math.random().toString(36).slice(2)+Date.now().toString(36);
 }
 
 const sidebar = document.getElementById("sidebar");
