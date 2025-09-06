@@ -51,7 +51,7 @@ color: rgb(143, 232, 232);
 
 h1 {
   font-size: 3rem;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .bott{
@@ -101,3 +101,4 @@ main {
   color: aquamarine;
   box-shadow: 0 8px 15px rgba(0,0,0,0.4);
 }
+
